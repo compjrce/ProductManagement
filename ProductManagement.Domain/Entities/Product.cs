@@ -2,7 +2,7 @@ using ProductManagement.Domain.Enum;
 
 namespace ProductManagement.Domain.Entities;
 
-public class Product
+public class Product : BaseEntity
 {
     public Product(string description, EProductStatus status, DateTime manufacturingDate, DateTime expiryDate, Guid supplierId, string supplierDescription, string supplierCnpj)
     {
@@ -22,4 +22,20 @@ public class Product
     public Guid SupplierId { get; private set; }
     public string SupplierDescription { get; private set; }
     public string SupplierCnpj { get; private set; }
+
+    public void DeactivateProduct()
+    {
+        Status = EProductStatus.Inactive;
+    }
+
+    public void UpdateProduct(string description, EProductStatus status, DateTime manufacturingDate, DateTime expiryDate, Guid supplierId, string supplierDescription, string supplierCnpj)
+    {
+        Description = description;
+        Status = status;
+        ManufacturingDate = manufacturingDate;
+        ExpiryDate = expiryDate;
+        SupplierId = supplierId;
+        SupplierDescription = supplierDescription;
+        SupplierCnpj = supplierCnpj;
+    }
 }

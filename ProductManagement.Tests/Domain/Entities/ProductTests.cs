@@ -1,5 +1,6 @@
 using ProductManagement.Domain.Entities;
 using ProductManagement.Domain.Enum;
+using Shouldly;
 
 namespace ProductManagement.Tests.Domain.Entities;
 
@@ -18,13 +19,14 @@ public class ProductTests
 
         Product product = new Product(description, status, manufacturingDate, expiryDate, supplierId, supplierDescription, supplierCnpj);
 
-        Assert.NotNull(product);
-        Assert.Equal(description, product.Description);
-        Assert.Equal(status, product.Status);
-        Assert.Equal(manufacturingDate, product.ManufacturingDate);
-        Assert.Equal(expiryDate, product.ExpiryDate);
-        Assert.Equal(supplierId, product.SupplierId);
-        Assert.Equal(supplierDescription, product.SupplierDescription);
-        Assert.Equal(supplierCnpj, product.SupplierCnpj);
+        product.ShouldNotBeNull();
+        product.CreatedAt.ShouldBeLessThanOrEqualTo(DateTime.Now);
+        product.Description.ShouldBeEquivalentTo(description);
+        product.Status.ShouldBeEquivalentTo(status);
+        product.ManufacturingDate.ShouldBeEquivalentTo(manufacturingDate);
+        product.ExpiryDate.ShouldBeEquivalentTo(expiryDate);
+        product.SupplierId.ShouldBeEquivalentTo(supplierId);
+        product.SupplierDescription.ShouldBeEquivalentTo(supplierDescription);
+        product.SupplierCnpj.ShouldBeEquivalentTo(supplierCnpj);
     }
 }

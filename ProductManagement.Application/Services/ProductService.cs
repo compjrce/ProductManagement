@@ -20,7 +20,7 @@ public class ProductService : IProductService
         throw new NotImplementedException();
     }
 
-    public Task<Product> GetById()
+    public Task<Product> GetById(Guid id)
     {
         throw new NotImplementedException();
     }

@@ -1,8 +1,8 @@
 using ProductManagement.Domain.Entities;
 
-namespace ProductManagement.Application.Services.Interfaces;
+namespace ProductManagement.Domain.Repositories;
 
-public interface IProductService
+public interface IProductServiceRepository
 {
     Task<Product> GetById(Guid id);
 
