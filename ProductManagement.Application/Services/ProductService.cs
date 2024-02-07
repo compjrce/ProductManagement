@@ -1,32 +1,46 @@
 using ProductManagement.Application.Services.Interfaces;
 using ProductManagement.Domain.Entities;
+using ProductManagement.Domain.Repositories;
 
 namespace ProductManagement.Application.Services;
 
 public class ProductService : IProductService
 {
-    public Task Create(Product product)
+    private readonly IProductServiceRepository _repository;
+
+    public ProductService(IProductServiceRepository repository)
     {
-        throw new NotImplementedException();
+        _repository = repository;
     }
 
-    public Task Delete(Guid id)
+    public async Task Create(Product product)
     {
-        throw new NotImplementedException();
+        await _repository.Create(product);
+
+        Task.CompletedTask.Wait();
+    }
+
+    public async Task Delete(Guid id)
+    {
+        await _repository.Delete(id);
+
+        Task.CompletedTask.Wait();
     }
 
     public Task<List<Product>> GetAll()
     {
-        throw new NotImplementedException();
+        return _repository.GetAll();
     }
 
     public Task<Product> GetById(Guid id)
     {
-        throw new NotImplementedException();
+        return _repository.GetById(id);
     }
 
-    public Task Update(Guid id, Product product)
+    public async Task Update(Guid id, Product product)
     {
-        throw new NotImplementedException();
+        await _repository.Update(id, product);
+
+        Task.CompletedTask.Wait();
     }
 }
