@@ -6,6 +6,7 @@ namespace ProductManagement.API.Controllers;
 
 [ApiController]
 [Route("products")]
+
 public class ProductController : ControllerBase
 {
     private readonly IProductService _service;
@@ -16,15 +17,20 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll(ProductsParameters productsParameters)
     {
-        return Ok(await _service.GetAll());
+        return Ok(await _service.GetAll(productsParameters));
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(Guid id)
     {
-        return Ok(await _service.GetById(id));
+        var produto = await _service.GetById(id);
+
+        if (produto == null)
+            return NotFound();
+
+        return Ok(produto);
     }
 
     [HttpPost]

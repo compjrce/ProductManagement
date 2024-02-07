@@ -27,9 +27,9 @@ public class ProductService : IProductService
         Task.CompletedTask.Wait();
     }
 
-    public Task<List<Product>> GetAll()
+    public Task<List<Product>> GetAll(ProductsParameters productsParameters)
     {
-        return _repository.GetAll();
+        return _repository.GetAll(productsParameters);
     }
 
     public Task<Product> GetById(Guid id)

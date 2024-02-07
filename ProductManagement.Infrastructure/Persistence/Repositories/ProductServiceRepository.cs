@@ -48,11 +48,13 @@ public class ProductServiceRepository : IProductServiceRepository
         }
     }
 
-    public async Task<List<Product>> GetAll()
+    public async Task<List<Product>> GetAll(ProductsParameters productsParameters)
     {
         var products = await _context
             .Products
             .AsNoTracking()
+            .Skip((productsParameters.PageNumber - 1) * productsParameters.PageSize)
+            .Take(productsParameters.PageSize)
             .ToListAsync();
 
         return products;
