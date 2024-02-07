@@ -1,9 +1,12 @@
 using ProductManagement.Domain.Enum;
+using ProductManagement.Domain.Notifications;
+using ProductManagement.Domain.Validations;
 
 namespace ProductManagement.Domain.Entities;
 
 public class Product : BaseEntity
 {
+    List<Notification> _notifications;
     public Product(string description, EProductStatus status, DateTime manufacturingDate, DateTime expiryDate, Guid supplierId, string supplierDescription, string supplierCnpj)
     {
         Description = description;
@@ -13,6 +16,8 @@ public class Product : BaseEntity
         SupplierId = supplierId;
         SupplierDescription = supplierDescription;
         SupplierCnpj = supplierCnpj;
+        _notifications = new List<Notification>();
+        //IsValid();
     }
 
     public string Description { get; private set; }
@@ -22,6 +27,7 @@ public class Product : BaseEntity
     public Guid SupplierId { get; private set; }
     public string SupplierDescription { get; private set; }
     public string SupplierCnpj { get; private set; }
+    public IReadOnlyCollection<Notification> Notifications => _notifications;
 
     public void DeactivateProduct()
     {
@@ -37,5 +43,16 @@ public class Product : BaseEntity
         SupplierId = supplierId;
         SupplierDescription = supplierDescription;
         SupplierCnpj = supplierCnpj;
+    }
+
+    public void PullNotification(Notification notification)
+    {
+        this._notifications.Add(notification);
+    }
+
+    public bool IsValid()
+    {
+        return
+            new ProductValidations(this).ManufacturingDateLessThanExpiryDate().IsValid();
     }
 }

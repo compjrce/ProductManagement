@@ -17,7 +17,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll(ProductsParameters productsParameters)
+    public async Task<IActionResult> GetAll([FromQuery] ProductsParameters productsParameters)
     {
         return Ok(await _service.GetAll(productsParameters));
     }
@@ -36,6 +36,9 @@ public class ProductController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Post(Product product)
     {
+        if (!product.IsValid())
+            return BadRequest(product.Notifications);
+
         await _service.Create(product);
 
         return Created($"products/{product.Id}", product);
@@ -44,6 +47,9 @@ public class ProductController : ControllerBase
     [HttpPut]
     public async Task<IActionResult> Put(Guid id, Product product)
     {
+        if (!product.IsValid())
+            return BadRequest(product.Notifications);
+
         await _service.Update(id, product);
 
         return NoContent();

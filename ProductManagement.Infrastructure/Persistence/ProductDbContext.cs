@@ -18,6 +18,7 @@ public class ProductDbContext : DbContext
         modelBuilder.Entity<Product>(x =>
         {
             x.HasKey(p => p.Id);
+            x.Ignore(p => p.Notifications);
         });
     }
 
