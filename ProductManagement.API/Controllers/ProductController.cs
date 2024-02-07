@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using ProductManagement.Application.InputModels;
 using ProductManagement.Application.Services.Interfaces;
-using ProductManagement.Domain.Entities;
 
 namespace ProductManagement.API.Controllers;
 
@@ -16,11 +16,11 @@ public class ProductController : ControllerBase
         _service = service;
     }
 
-    [HttpGet]
-    public async Task<IActionResult> GetAll([FromQuery] ProductsParameters productsParameters)
-    {
-        return Ok(await _service.GetAll(productsParameters));
-    }
+    // [HttpGet]
+    // public async Task<IActionResult> GetAll([FromQuery] ProductsParameters productsParameters)
+    // {
+    //     return Ok(await _service.GetAll(productsParameters));
+    // }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(Guid id)
@@ -34,26 +34,26 @@ public class ProductController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post(Product product)
+    public async Task<IActionResult> Post(ProductInputModel productInputModel)
     {
-        if (!product.IsValid())
-            return BadRequest(product.Notifications);
+        var response = await _service.Create(productInputModel);
 
-        await _service.Create(product);
+        if (response.Notifications.Any())
+            return BadRequest(response.Notifications);
 
-        return Created($"products/{product.Id}", product);
+        return Created($"products/{response.Data.Id}", response.Data);
     }
 
-    [HttpPut]
-    public async Task<IActionResult> Put(Guid id, Product product)
-    {
-        if (!product.IsValid())
-            return BadRequest(product.Notifications);
+    // [HttpPut]
+    // public async Task<IActionResult> Put(Guid id, Product product)
+    // {
+    //     if (!product.IsValid())
+    //         return BadRequest(product.Notifications);
 
-        await _service.Update(id, product);
+    //     await _service.Update(id, product);
 
-        return NoContent();
-    }
+    //     return NoContent();
+    // }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(Guid id)

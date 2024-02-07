@@ -1,3 +1,6 @@
+using System.ComponentModel.DataAnnotations;
+using ProductManagement.Application.InputModels;
+using ProductManagement.Application.ResponseModels;
 using ProductManagement.Application.Services.Interfaces;
 using ProductManagement.Domain.Entities;
 using ProductManagement.Domain.Repositories;
@@ -13,11 +16,16 @@ public class ProductService : IProductService
         _repository = repository;
     }
 
-    public async Task Create(Product product)
+    public async Task<ProductResponse> Create(ProductInputModel productInputModel)
     {
+        var product = productInputModel.FromEntity();
+
+        if (!product.IsValid())
+            return new ProductResponse(product, product.Notifications.ToList());
+
         await _repository.Create(product);
 
-        Task.CompletedTask.Wait();
+        return new ProductResponse(product, product.Notifications.ToList());
     }
 
     public async Task Delete(Guid id)

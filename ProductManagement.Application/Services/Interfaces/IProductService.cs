@@ -1,3 +1,5 @@
+using ProductManagement.Application.InputModels;
+using ProductManagement.Application.ResponseModels;
 using ProductManagement.Domain.Entities;
 
 namespace ProductManagement.Application.Services.Interfaces;
@@ -8,7 +10,7 @@ public interface IProductService
 
     Task<List<Product>> GetAll(ProductsParameters productsParameters);
 
-    Task Create(Product product);
+    Task<ProductResponse> Create(ProductInputModel productInputModel);
 
     Task Update(Guid id, Product product);
 
