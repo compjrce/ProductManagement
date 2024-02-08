@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ProductManagement.Application.InputModels;
 using ProductManagement.Application.Services.Interfaces;
+using ProductManagement.Application.ViewModels;
 
 namespace ProductManagement.API.Controllers;
 
@@ -41,7 +42,9 @@ public class ProductController : ControllerBase
         if (response.Notifications.Any())
             return BadRequest(response.Notifications);
 
-        return Created($"products/{response.Data.Id}", response.Data);
+        var product = (ProductViewModel)response.Data;
+
+        return Created($"products/{product.Id}", product);
     }
 
     [HttpPut("{id}")]

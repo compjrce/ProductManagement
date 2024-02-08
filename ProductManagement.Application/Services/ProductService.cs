@@ -4,6 +4,7 @@ using ProductManagement.Application.ResponseModels;
 using ProductManagement.Application.Services.Interfaces;
 using ProductManagement.Application.ViewModels;
 using ProductManagement.Domain.Entities;
+using ProductManagement.Domain.Notifications;
 using ProductManagement.Domain.Repositories;
 
 namespace ProductManagement.Application.Services;
@@ -36,23 +37,34 @@ public class ProductService : IProductService
         var product = _mapper.Map<Product>(productInputModel);
 
         if (!product.IsValid())
-            return new ProductResponse(product, product.Notifications.ToList());
+            return new ProductResponse(_mapper.Map<ProductViewModel>(product), product.Notifications.ToList());
 
         await _repository.Create(product);
 
-        return new ProductResponse(product, product.Notifications.ToList());
+        return new ProductResponse(_mapper.Map<ProductViewModel>(product), product.Notifications.ToList());
     }
 
     public async Task<ProductResponse> Update(Guid id, ProductInputModel productInputModel)
     {
-        var product = _mapper.Map<Product>(productInputModel);
+        var product = await _repository.GetById(id);
+
+        if (product == null)
+            return new ProductResponse(null, new List<Notification> { new("Product", $"Id: {id} - not found.") });
+
+        product.UpdateProduct(productInputModel.Description,
+                              productInputModel.Status,
+                              productInputModel.ManufacturingDate,
+                              productInputModel.ExpiryDate,
+                              productInputModel.SupplierId,
+                              productInputModel.SupplierDescription,
+                              productInputModel.SupplierCnpj);
 
         if (!product.IsValid())
-            return new ProductResponse(product, product.Notifications.ToList());
+            return new ProductResponse(_mapper.Map<ProductViewModel>(product), product.Notifications.ToList());
 
         await _repository.Update(id, product);
 
-        return new ProductResponse();
+        return new ProductResponse(null, product.Notifications.ToList());
     }
 
     public async Task Delete(Guid id)

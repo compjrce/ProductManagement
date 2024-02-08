@@ -4,13 +4,13 @@ namespace ProductManagement.Application.ViewModels;
 
 public class ProductViewModel
 {
-    public Guid Id { get; private set; }
-    public DateTime CreatedAt { get; private set; }
-    public string Description { get; private set; }
-    public EProductStatus Status { get; private set; }
-    public DateTime ManufacturingDate { get; private set; }
-    public DateTime ExpiryDate { get; private set; }
-    public Guid SupplierId { get; private set; }
-    public string SupplierDescription { get; private set; }
-    public string SupplierCnpj { get; private set; }
+    public Guid Id { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public string Description { get; set; }
+    public EProductStatus Status { get; set; }
+    public DateTime ManufacturingDate { get; set; }
+    public DateTime ExpiryDate { get; set; }
+    public Guid SupplierId { get; set; }
+    public string SupplierDescription { get; set; }
+    public string SupplierCnpj { get; set; }
 }
