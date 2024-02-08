@@ -19,9 +19,21 @@ public class ProductService : IProductService
         _mapper = mapper;
     }
 
+    public async Task<ProductViewModel> GetById(Guid id)
+    {
+        return _mapper.Map<ProductViewModel>(await _repository.GetById(id));
+    }
+
+    public async Task<List<ProductViewModel>> GetAll(ProductsParametersInputModel productsParameters)
+    {
+        var list = await _repository.GetAll(_mapper.Map<ProductsParameters>(productsParameters));
+
+        return _mapper.Map<List<ProductViewModel>>(list);
+    }
+
     public async Task<ProductResponse> Create(ProductInputModel productInputModel)
     {
-        var product = productInputModel.FromEntity();
+        var product = _mapper.Map<Product>(productInputModel);
 
         if (!product.IsValid())
             return new ProductResponse(product, product.Notifications.ToList());
@@ -31,26 +43,21 @@ public class ProductService : IProductService
         return new ProductResponse(product, product.Notifications.ToList());
     }
 
+    public async Task<ProductResponse> Update(Guid id, ProductInputModel productInputModel)
+    {
+        var product = _mapper.Map<Product>(productInputModel);
+
+        if (!product.IsValid())
+            return new ProductResponse(product, product.Notifications.ToList());
+
+        await _repository.Update(id, product);
+
+        return new ProductResponse();
+    }
+
     public async Task Delete(Guid id)
     {
         await _repository.Delete(id);
-
-        Task.CompletedTask.Wait();
-    }
-
-    public Task<List<Product>> GetAll(ProductsParameters productsParameters)
-    {
-        return _repository.GetAll(productsParameters);
-    }
-
-    public async Task<ProductViewModel> GetById(Guid id)
-    {
-        return _mapper.Map<ProductViewModel>(await _repository.GetById(id));
-    }
-
-    public async Task Update(Guid id, Product product)
-    {
-        await _repository.Update(id, product);
 
         Task.CompletedTask.Wait();
     }

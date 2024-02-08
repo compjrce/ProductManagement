@@ -11,5 +11,6 @@ public class AutoMapperProfile : Profile
     {
         CreateMap<ProductInputModel, Product>();
         CreateMap<Product, ProductViewModel>();
+        CreateMap<ProductsParametersInputModel, ProductsParameters>();
     }
 }

@@ -1,5 +1,4 @@
 using Microsoft.Extensions.DependencyInjection;
-using ProductManagement.Application.AutoMapper;
 using ProductManagement.Application.Services;
 using ProductManagement.Application.Services.Interfaces;
 

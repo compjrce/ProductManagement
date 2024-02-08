@@ -16,11 +16,11 @@ public class ProductController : ControllerBase
         _service = service;
     }
 
-    // [HttpGet]
-    // public async Task<IActionResult> GetAll([FromQuery] ProductsParameters productsParameters)
-    // {
-    //     return Ok(await _service.GetAll(productsParameters));
-    // }
+    [HttpGet]
+    public async Task<IActionResult> GetAll([FromQuery] ProductsParametersInputModel productsParameters)
+    {
+        return Ok(await _service.GetAll(productsParameters));
+    }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(Guid id)
@@ -44,16 +44,16 @@ public class ProductController : ControllerBase
         return Created($"products/{response.Data.Id}", response.Data);
     }
 
-    // [HttpPut]
-    // public async Task<IActionResult> Put(Guid id, Product product)
-    // {
-    //     if (!product.IsValid())
-    //         return BadRequest(product.Notifications);
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Put(ProductInputModel productInputModel, Guid id)
+    {
+        var response = await _service.Update(id, productInputModel);
 
-    //     await _service.Update(id, product);
+        if (response.Notifications.Any())
+            return BadRequest(response.Notifications);
 
-    //     return NoContent();
-    // }
+        return NoContent();
+    }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(Guid id)

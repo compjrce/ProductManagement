@@ -5,6 +5,8 @@ namespace ProductManagement.Application.ResponseModels;
 
 public class ProductResponse
 {
+    public ProductResponse() { }
+
     public ProductResponse(Product data, List<Notification> notifications)
     {
         Data = data;
