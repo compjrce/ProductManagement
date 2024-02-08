@@ -17,7 +17,6 @@ public class Product : BaseEntity
         SupplierDescription = supplierDescription;
         SupplierCnpj = supplierCnpj;
         _notifications = new List<Notification>();
-        //IsValid();
     }
 
     public string Description { get; private set; }
