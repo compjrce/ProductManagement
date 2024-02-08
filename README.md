@@ -25,12 +25,15 @@ To clone and run this application, you'll need [Git](https://git-scm.com), [.Net
 ## Installation
 ```bash
 # Clone this repository
-$ git clone https://github.com/compjrce/DeliveryApp.git
+$ git clone https://github.com/compjrce/ProductManagement.git
 
 # Go into the repository
-$ cd DeliveryApp
+$ cd ProductManagement
 $ dotnet build
-$ cd DeliveryApp.API
+$ cd ProductManagement.Infrastructure
+$ dotnet ef database update
+$ cd ..
+$ cd ProductManagement.API
 $ dotnet watch run
 ```
 
