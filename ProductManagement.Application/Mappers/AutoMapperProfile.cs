@@ -3,7 +3,7 @@ using ProductManagement.Application.InputModels;
 using ProductManagement.Application.ViewModels;
 using ProductManagement.Domain.Entities;
 
-namespace ProductManagement.Application.AutoMapper;
+namespace ProductManagement.Application.Mappers;
 
 public class AutoMapperProfile : Profile
 {
